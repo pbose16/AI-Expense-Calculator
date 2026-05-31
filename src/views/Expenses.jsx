@@ -27,11 +27,11 @@ export default function Expenses({ data, updateData, onAddClick }) {
   };
 
   return (
-    <div className="pb-24 relative min-h-screen">
+    <div className="pb-24 md:pb-6 relative min-h-screen">
       <div className="pt-8 px-6 pb-4 flex justify-between items-center sticky top-0 bg-[var(--app-bg)]/80 backdrop-blur-md z-20">
         <div>
-          <h2 className="text-3xl font-bold text-white">Expenses</h2>
-          <p className="text-slate-400 text-sm mt-1">{data.expenses.length} transactions</p>
+          <h2 className="text-3xl font-bold text-[var(--text-main)]">Expenses</h2>
+          <p className="text-[var(--text-muted)] text-sm mt-1">{data.expenses.length} transactions</p>
         </div>
         <button 
           onClick={onAddClick}
@@ -43,9 +43,9 @@ export default function Expenses({ data, updateData, onAddClick }) {
 
       <div className="px-6 mt-4 space-y-4">
         {data.expenses.length === 0 ? (
-          <div className="text-center py-16 text-slate-500">
+          <div className="text-center py-16 text-[var(--text-muted)]">
             <div className="w-16 h-16 rounded-full glass-panel flex items-center justify-center mx-auto mb-4">
-              <Receipt className="w-8 h-8 text-slate-400" />
+              <Receipt className="w-8 h-8 text-[var(--text-muted)]" />
             </div>
             <p>No expenses logged yet.</p>
             <p className="text-sm mt-1">Tap the + button to add one!</p>
@@ -53,7 +53,7 @@ export default function Expenses({ data, updateData, onAddClick }) {
         ) : (
           [...data.expenses].reverse().map((exp, idx) => {
             const Icon = CATEGORY_ICONS[exp.category] || Coffee;
-            const colorClass = CATEGORY_COLORS[exp.category] || 'text-slate-400 bg-slate-400/10';
+            const colorClass = CATEGORY_COLORS[exp.category] || 'text-[var(--text-muted)] bg-black/10 dark:bg-white/10';
             
             return (
               <motion.div
@@ -67,16 +67,16 @@ export default function Expenses({ data, updateData, onAddClick }) {
                   <Icon className="w-6 h-6" />
                 </div>
                 <div className="flex-1">
-                  <h4 className="text-white font-medium">{exp.title}</h4>
-                  <p className="text-xs text-slate-400 mt-1">
-                    Paid by <span className="text-slate-300">{getParticipantName(exp.payerId)}</span>
+                  <h4 className="text-[var(--text-main)] font-medium">{exp.title}</h4>
+                  <p className="text-xs text-[var(--text-muted)] mt-1">
+                    Paid by <span className="font-semibold">{getParticipantName(exp.payerId)}</span>
                   </p>
                 </div>
                 <div className="text-right">
-                  <div className="text-lg font-bold text-white">
+                  <div className="text-lg font-bold text-[var(--text-main)]">
                     {data.metadata.currency} {parseFloat(exp.amount).toFixed(2)}
                   </div>
-                  <div className="text-xs text-slate-400 mt-1">
+                  <div className="text-xs text-[var(--text-muted)] mt-1">
                     For {exp.participantIds.length} ppl
                   </div>
                 </div>

@@ -42,7 +42,7 @@ export default function TripList({ trips, onSelectTrip, onCreateTrip, onDeleteTr
   }, [trips]);
 
   return (
-    <div className="pb-24 min-h-screen bg-[var(--app-bg)]">
+    <div className="pb-24 md:pb-6 min-h-screen bg-[var(--app-bg)]">
       {/* Banner Section */}
       <div className="relative w-full h-80 rounded-b-[40px] overflow-hidden mb-6 shadow-2xl">
         <div 
@@ -57,7 +57,7 @@ export default function TripList({ trips, onSelectTrip, onCreateTrip, onDeleteTr
             Track expenses.<br/>
             <span className="text-[var(--accent-purple)]">Enjoy every trip.</span>
           </h1>
-          <p className="text-slate-300 text-sm mb-6 max-w-[200px]">
+          <p className="text-slate-200 text-sm mb-6 max-w-[200px] drop-shadow-md">
             Add your trips and keep your expenses organized.
           </p>
           <button 
@@ -88,14 +88,14 @@ export default function TripList({ trips, onSelectTrip, onCreateTrip, onDeleteTr
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="Trip Name (e.g. Paris Getaway)"
-                  className="w-full bg-[var(--app-bg)]/50 border border-white/5 rounded-xl px-4 py-3 text-white mb-3 focus:outline-none focus:border-[var(--accent-purple)]"
+                  className="w-full bg-[var(--panel-bg)]/80 border border-[var(--glass-border)] rounded-xl px-4 py-3 text-[var(--text-main)] mb-3 focus:outline-none focus:border-[var(--accent-purple)]"
                   autoFocus
                 />
                 <div className="flex gap-3 mb-4">
                   <select
                     value={newCurrency}
                     onChange={(e) => setNewCurrency(e.target.value)}
-                    className="bg-[var(--app-bg)]/50 border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none appearance-none flex-1"
+                    className="bg-[var(--panel-bg)]/80 border border-[var(--glass-border)] rounded-xl px-4 py-3 text-[var(--text-main)] focus:outline-none appearance-none flex-1"
                   >
                     <option value="$">USD ($)</option>
                     <option value="€">EUR (€)</option>
@@ -107,7 +107,7 @@ export default function TripList({ trips, onSelectTrip, onCreateTrip, onDeleteTr
                   <button
                     type="button"
                     onClick={() => setShowNewForm(false)}
-                    className="flex-1 py-3 rounded-xl bg-white/5 text-slate-300 font-medium hover:bg-white/10 transition-colors"
+                    className="flex-1 py-3 rounded-xl bg-black/5 dark:bg-white/5 text-[var(--text-muted)] font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
                   >
                     Cancel
                   </button>
@@ -125,15 +125,15 @@ export default function TripList({ trips, onSelectTrip, onCreateTrip, onDeleteTr
         </AnimatePresence>
 
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-bold text-white">Your Trips</h2>
-          <button className="flex items-center gap-1 text-sm text-slate-400 hover:text-white transition-colors">
+          <h2 className="text-lg font-bold text-[var(--text-main)]">Your Trips</h2>
+          <button className="flex items-center gap-1 text-sm text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors">
             Recent <ChevronDown className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {tripsWithData.length === 0 && !showNewForm ? (
-            <div className="text-center py-10 text-slate-500">
+            <div className="col-span-full text-center py-10 text-[var(--text-muted)]">
               <p>No trips found.</p>
               <p className="text-sm mt-1">Tap the Add Trip button to create one!</p>
             </div>
@@ -147,7 +147,7 @@ export default function TripList({ trips, onSelectTrip, onCreateTrip, onDeleteTr
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.9 }}
-                    className={`bg-[var(--panel-bg)] rounded-2xl flex items-center p-3 group cursor-pointer hover:bg-white/5 transition-colors border-l-4 ${BORDER_COLORS[trip.iconIdx]}`}
+                    className={`bg-[var(--panel-bg)] rounded-2xl flex items-center p-3 group cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition-colors border-l-4 ${BORDER_COLORS[trip.iconIdx]} shadow-sm`}
                     onClick={() => onSelectTrip(trip.id)}
                   >
                     <div 
@@ -160,23 +160,23 @@ export default function TripList({ trips, onSelectTrip, onCreateTrip, onDeleteTr
                     </div>
                     
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-base font-bold text-white truncate">{trip.title}</h3>
-                      <p className="text-xs text-slate-400 truncate text-opacity-80">
+                      <h3 className="text-base font-bold text-[var(--text-main)] truncate">{trip.title}</h3>
+                      <p className="text-xs text-[var(--text-muted)] truncate text-opacity-80">
                         {trip.startDate}
                       </p>
                     </div>
 
                     <div className="text-right ml-2 mr-2">
-                      <div className="text-sm font-bold text-white">
+                      <div className="text-sm font-bold text-[var(--text-main)]">
                         {trip.currency}{trip.totalAmount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
                       </div>
-                      <div className="text-xs text-slate-400">
+                      <div className="text-xs text-[var(--text-muted)]">
                         {trip.expenseCount} expenses
                       </div>
                     </div>
 
                     <div className="flex flex-col items-center justify-center gap-2">
-                      <ArrowRight className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
+                      <ArrowRight className="w-4 h-4 text-[var(--text-muted)] group-hover:text-[var(--text-main)] transition-colors" />
                       <button
                         onClick={(e) => {
                           e.stopPropagation();

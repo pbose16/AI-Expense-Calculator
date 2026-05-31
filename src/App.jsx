@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Moon, Sun } from 'lucide-react';
 import { getAllTrips, getTripData, setTripData, createTrip, deleteTrip, migrateOldData } from './utils/storageHelper';
 import Navigation from './components/Navigation';
 import Dashboard from './views/Dashboard';
@@ -16,6 +17,9 @@ function App() {
   const [currentView, setCurrentView] = useState('dashboard');
   const [loading, setLoading] = useState(true);
   const [showExpenseForm, setShowExpenseForm] = useState(false);
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'dark';
+  });
 
   useEffect(() => {
     // Migrate old single trip data if it exists
@@ -27,6 +31,17 @@ function App() {
       setLoading(false);
     }, 800);
   }, []);
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
 
   const handleSelectTrip = (id) => {
     const tripData = getTripData(id);
@@ -71,11 +86,11 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--app-bg)] text-slate-50 font-sans selection:bg-[var(--neon-purple)] selection:text-white max-w-md mx-auto relative shadow-2xl overflow-x-hidden">
+    <div className="min-h-screen bg-[var(--app-bg)] text-[var(--text-main)] font-sans selection:bg-[var(--accent-purple)] selection:text-white mx-auto relative shadow-2xl overflow-x-hidden md:flex md:max-w-[1400px]">
       {/* Abstract Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[var(--neon-blue)] rounded-full mix-blend-screen filter blur-[100px] opacity-20"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[var(--neon-purple)] rounded-full mix-blend-screen filter blur-[100px] opacity-20"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[var(--accent-blue)] rounded-full mix-blend-screen filter blur-[100px] opacity-20"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[var(--accent-purple)] rounded-full mix-blend-screen filter blur-[100px] opacity-20"></div>
       </div>
 
       <AnimatePresence mode="wait">
@@ -102,9 +117,16 @@ function App() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
             transition={{ duration: 0.2 }}
-            className="h-full flex flex-col"
+            className="h-full flex flex-col md:flex-row flex-1 w-full"
           >
-            <div className="flex-1">
+            <Navigation 
+              currentView={currentView} 
+              setCurrentView={setCurrentView} 
+              onAddClick={() => setShowExpenseForm(true)}
+              theme={theme}
+              toggleTheme={toggleTheme}
+            />
+            <div className="flex-1 overflow-y-auto w-full max-w-5xl mx-auto">
               {currentView === 'dashboard' && <Dashboard data={data} updateData={updateData} onBack={handleBackToList} />}
               {currentView === 'expenses' && <Expenses data={data} updateData={updateData} onAddClick={() => setShowExpenseForm(true)} />}
               {currentView === 'settlement' && <Settlement data={data} updateData={updateData} />}
@@ -120,8 +142,6 @@ function App() {
                 />
               )}
             </AnimatePresence>
-
-            <Navigation currentView={currentView} setCurrentView={setCurrentView} onAddClick={() => setShowExpenseForm(true)} />
           </motion.div>
         )}
       </AnimatePresence>

@@ -60,18 +60,18 @@ export default function Settlement({ data, updateData }) {
   };
 
   return (
-    <div className="pb-24">
+    <div className="pb-24 md:pb-6">
       <div className="pt-8 px-6 pb-4">
-        <h2 className="text-3xl font-bold text-white mb-6">Settlement</h2>
+        <h2 className="text-3xl font-bold text-[var(--text-main)] mb-6">Settlement</h2>
         
         {/* Toggle View */}
-        <div className="flex p-1 bg-slate-800/50 rounded-xl mb-6 backdrop-blur-md">
+        <div className="flex p-1 bg-[var(--panel-bg)] border border-[var(--glass-border)] rounded-xl mb-6 backdrop-blur-md">
           <button
             onClick={() => setViewMode('simple')}
             className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${
               viewMode === 'simple' 
-                ? 'bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] text-white shadow-lg' 
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-purple)] text-white shadow-lg' 
+                : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
             }`}
           >
             Action
@@ -80,8 +80,8 @@ export default function Settlement({ data, updateData }) {
             onClick={() => setViewMode('detailed')}
             className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${
               viewMode === 'detailed' 
-                ? 'bg-gradient-to-r from-[var(--neon-purple)] to-[var(--neon-pink)] text-white shadow-lg' 
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-gradient-to-r from-[var(--accent-purple)] to-[var(--accent-blue)] text-white shadow-lg' 
+                : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
             }`}
           >
             Analytics
@@ -98,11 +98,11 @@ export default function Settlement({ data, updateData }) {
               className="space-y-4"
             >
               {settlement.length === 0 ? (
-                <div className="text-center py-12 text-slate-500">
+                <div className="text-center py-12 text-[var(--text-muted)]">
                   <div className="w-16 h-16 rounded-full glass-panel flex items-center justify-center mx-auto mb-4 bg-emerald-400/10">
                     <CheckCircle2 className="w-8 h-8 text-emerald-400" />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">All Settled Up!</h3>
+                  <h3 className="text-xl font-bold text-[var(--text-main)] mb-2">All Settled Up!</h3>
                   <p>No one owes anything.</p>
                 </div>
               ) : (
@@ -120,22 +120,22 @@ export default function Settlement({ data, updateData }) {
                           {getParticipantName(trans.from).charAt(0)}
                         </div>
                         <div>
-                          <p className="text-sm text-slate-400">Pays</p>
-                          <p className="font-semibold text-white">{getParticipantName(trans.from)}</p>
+                          <p className="text-sm text-[var(--text-muted)]">Pays</p>
+                          <p className="font-semibold text-[var(--text-main)]">{getParticipantName(trans.from)}</p>
                         </div>
                       </div>
                       
                       <div className="flex flex-col items-center">
-                        <ArrowRight className="w-5 h-5 text-[var(--neon-blue)] mb-1" />
-                        <div className="font-bold text-xl text-[var(--neon-blue)]">
+                        <ArrowRight className="w-5 h-5 text-[var(--accent-blue)] mb-1" />
+                        <div className="font-bold text-xl text-[var(--accent-blue)]">
                           {data.metadata.currency} {trans.amount.toFixed(2)}
                         </div>
                       </div>
 
                       <div className="flex items-center gap-3">
                         <div className="text-right">
-                          <p className="text-sm text-slate-400">To</p>
-                          <p className="font-semibold text-white">{getParticipantName(trans.to)}</p>
+                          <p className="text-sm text-[var(--text-muted)]">To</p>
+                          <p className="font-semibold text-[var(--text-main)]">{getParticipantName(trans.to)}</p>
                         </div>
                         <div className={`w-10 h-10 rounded-full ${getParticipantColor(trans.to)} flex items-center justify-center text-white font-bold`}>
                           {getParticipantName(trans.to).charAt(0)}
@@ -163,13 +163,13 @@ export default function Settlement({ data, updateData }) {
               className="space-y-6"
             >
               {data.expenses.length === 0 ? (
-                <div className="text-center py-12 text-slate-500">
+                <div className="text-center py-12 text-[var(--text-muted)]">
                   Not enough data for analytics yet.
                 </div>
               ) : (
                 <>
                   <div className="glass-panel p-5 rounded-2xl">
-                    <h3 className="text-lg font-semibold text-white mb-4">Spending by Category</h3>
+                    <h3 className="text-lg font-semibold text-[var(--text-main)] mb-4">Spending by Category</h3>
                     <div className="h-64">
                       <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
@@ -200,9 +200,9 @@ export default function Settlement({ data, updateData }) {
                         <div key={entry.name} className="flex items-center justify-between text-sm">
                           <div className="flex items-center gap-3">
                             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }}></div>
-                            <span className="text-slate-300">{entry.name}</span>
+                            <span className="text-[var(--text-muted)]">{entry.name}</span>
                           </div>
-                          <span className="font-bold text-white">
+                          <span className="font-bold text-[var(--text-main)]">
                             {data.metadata.currency} {entry.value.toFixed(2)}
                           </span>
                         </div>
@@ -211,7 +211,7 @@ export default function Settlement({ data, updateData }) {
                   </div>
 
                   <div className="glass-panel p-5 rounded-2xl">
-                    <h3 className="text-lg font-semibold text-white mb-4">Total Paid by Member</h3>
+                    <h3 className="text-lg font-semibold text-[var(--text-main)] mb-4">Total Paid by Member</h3>
                     <div className="h-64">
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={participantSpendingData} layout="vertical" margin={{ left: 10, right: 30 }}>

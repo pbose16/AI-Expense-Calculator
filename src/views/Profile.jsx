@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 export default function Profile() {
   return (
-    <div className="pb-24 pt-8 px-6 min-h-[80vh] flex flex-col items-center justify-center">
+    <div className="pb-24 md:pb-6 pt-8 px-6 min-h-[80vh] flex flex-col items-center justify-center">
       <motion.div
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -28,7 +28,7 @@ export default function Profile() {
               </span>
               In Development
             </div>
-            <p className="text-slate-300 text-sm">
+            <p className="text-[var(--text-muted)] text-sm">
               We're hard at work bringing the Profile features to life! Check back soon.
             </p>
           </motion.div>
